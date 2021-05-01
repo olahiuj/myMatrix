@@ -1,18 +1,25 @@
 #include <bits/stdc++.h>
 #include "myMatrix.hpp"
 
+LL tmp[N][N];
+
+LL read() {
+	LL x=0,v=1; char ch=getchar();
+	for (;ch<'0'||ch>'9';v=(ch=='-')?(-1):v,ch=getchar());
+	for (;ch<='9'&&ch>='0';x=x*10+ch-'0',ch=getchar());
+	return x*v;
+}
+
 // here's the main function
 int main(void) {
-	freopen("data.in", "r", stdin);
-	freopen("myp.out", "w", stdout);
-	LL n, k; std:: cin >> n >> k;
-	myMatrix <LL> G(n, n), H(n, n), E(n, n);
+	freopen("1.in", "r", stdin);
+	freopen("1.out", "w", stdout);
+	LL n = 2000;
 	rep(i, 1, n) rep (j, 1, n) {
-		LL x; std:: cin >> x;
-		G.set(i, j, x);
+		tmp[i][j] = read();
 	}
-	rep(i, 1, n) H.set(i, i, 1);
-	H = G ^ k;
-	std:: cout << H;
+	myMatrix <LL> G(n, n, tmp), H(n, n), E(n, n);
+	G *= G;
+	std:: cout << G;
 	return 0;
 }

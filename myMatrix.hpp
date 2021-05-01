@@ -13,6 +13,7 @@
 typedef long long LL;
 
 const int MOD = 1000000007;
+const int N = 6005;
 
 template <typename T>
 class Node {
@@ -42,6 +43,7 @@ class myMatrix {
 public:
 	myMatrix(const int &, const int & );
 	myMatrix(const myMatrix <T> & );
+	myMatrix(int, int, T tmp[N][N] );
 	~myMatrix();
 
 	// reload << operator to cout
@@ -65,7 +67,6 @@ public:
 	// set Mat to N*N IDEN Mat
 	void identity(int );
 
-	static const int N = 505;
 	Node <T> *Col[N], *Row[N], *tmp[N];
 
 private:
@@ -122,6 +123,27 @@ template <typename T> void Node <T>:: insertVertical(int x, int y, T val) {
 template <typename T> Node <T> :: ~Node() {
 	this->data = this->x = this->y = 0;
 	this->right = this->down = nullptr;
+}
+
+template <typename T> myMatrix <T>:: myMatrix(int n, int m, T tmp[N][N]) {
+	this->init(n, m);
+	Node <T> *A_x, *B_x, *C_x;
+	
+	rep(i, 1, n) {
+		int j = 1;
+		C_x = this->Row[i];
+
+		while (j <= m) {
+			if (tmp[i][j]) {
+				Node <T> *new_node = new Node <T> (i, j, tmp[i][j]);
+				C_x->insertHorizonal(new_node);
+				C_x = C_x->right;
+			}
+			j ++;
+		}
+	}
+
+	this->connect();
 }
 
 template <typename T> void myMatrix <T>:: connect() {
